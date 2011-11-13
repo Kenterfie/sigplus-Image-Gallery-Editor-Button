@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="editors-xtd">
+    <name>Editor Button - sigplus Image Gallery</name>
+    <author>Stefan Reusch</author>
+    <creationDate>Nov 2011</creationDate>
+    <copyright>(C) 2011 Stefan Reusch. All rights reserved.</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>kenterfie@googlemail.com</authorEmail>
+    <version>1.0.0</version>
+    <description>...</description>
+    <files>
+        <filename plugin="sigplusEditorButton">sigplusEditorButton.php</filename>
+    </files>
+	<languages folder="language">
+		<language tag="de-DE">de-DE.sigplusEditorButton.ini</language>
+	</languages>
+</install>
