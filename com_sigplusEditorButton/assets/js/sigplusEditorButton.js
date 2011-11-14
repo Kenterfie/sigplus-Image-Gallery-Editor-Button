@@ -1,6 +1,8 @@
 var path = [""];
 var file = "";
-var xmlHttpObject;
+var xmlHttpObject, xmlHttpObject2;
+var imageLabel = "";
+var imageDesc = "";
 
 /*
 	sigplus parameter translation table
@@ -100,10 +102,36 @@ function openConfig() {
 		method: 'get',
 		onSuccess: function() {
 			$('formHolder').innerHTML = xmlHttpObject.response.text;
-			buildParameters();
+			//buildParameters();
 			hideParameters();
+			$('pasteButton').setStyle('display', 'block');
 		}
-	}).send(joomla_base+'/administrator/index.php?option=com_sigpluseditorbutton&task=config&format=raw');
+	}).send(joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=config&format=raw');
+}
+
+function openCaption() {
+	xmlHttpObject = new XHR({
+		method: 'get',
+		onSuccess: function() {
+			$('formHolder').innerHTML = xmlHttpObject.response.text;
+		}
+	}).send(joomla_base+'/administrator/index.php?option=com_sigpluseditorbutton&task=caption&path=' + encodeURIComponent(path.join('/')) + '&file=' + encodeURIComponent(extractFilename(file)) + '&format=raw');
+}
+
+function extractFilename(f) {
+	var parts = file.split('/');
+	return parts[parts.length - 1];
+}
+
+function saveCaption() {
+	browseFolder(path);
+	xmlHttpObject = new XHR({
+		method: 'get',
+		onSuccess: function() {
+			// show return message
+			$('messageHolder').innerHTML = xmlHttpObject.response.text;
+		}
+	}).send(joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=setcaption&path=' + encodeURIComponent(path.join('/')) + '&file=' + encodeURIComponent(extractFilename(file)) + '&label=' + encodeURIComponent($('imageLabel').value) + '&desc=' + encodeURIComponent($('imageDesc').value) + '&format=raw');
 }
 
 function setFile(f) {
@@ -116,6 +144,10 @@ function setFile(f) {
 	file = text;
 }
 
+function back() {
+	browseFolder(path);
+}
+
 function pasteTag() {
 	var params = buildParameters();
 	insertEditor('{gallery' + (params.length>0?' ' + params:'') + '}' + file + '{/gallery}');
@@ -124,10 +156,10 @@ function pasteTag() {
 
 function loadFiles(p)
 {
-	xmlHttpObject = new XHR({
+	xmlHttpObject2 = new XHR({
 		method: 'get',
 		onSuccess: function() {
-			$('formHolder').innerHTML = xmlHttpObject.response.text;
+			$('formHolder').innerHTML = xmlHttpObject2.response.text;
 		}
-	}).send(joomla_base+'/administrator/index.php?option=com_sigpluseditorbutton&task=browse&path=' + p + '&format=raw');
+	}).send(joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=browse&path=' + encodeURIComponent(p) + '&format=raw');
 }

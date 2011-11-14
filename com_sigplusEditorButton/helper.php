@@ -7,6 +7,11 @@ jimport('joomla.filesystem.folder' );
 jimport('joomla.application.component.helper');
 jimport('joomla.plugin.helper');
 
+class ImageData {
+	public $label = '';
+	public $desc = '';
+}
+
 class sigplusEditorButtonHelper {
 	const FLAG_ASPECTRATIO = 1;
 	const FLAG_PADDING = 2;
@@ -38,7 +43,7 @@ class sigplusEditorButtonHelper {
 		
 		foreach($folders as $key => &$folder) {
 			// hide thumb folder
-			if($folder == '_thumbs') {
+			if($folder == 'preview' || $folder == 'thumbs') {
 				unset($folders[$key]);
 			}
 		}
@@ -71,7 +76,7 @@ class sigplusEditorButtonHelper {
 	}
 	
 	public function getThumb($path, $filename) {
-		$thumb_dir = $path.DS.'_thumbs';
+		$thumb_dir = $path.DS.'thumbs';
 	
 		if(!JFolder::exists($thumb_dir)) {
 			if(!JFolder::create($thumb_dir)) {
@@ -85,6 +90,45 @@ class sigplusEditorButtonHelper {
 		} else {
 			
 		}
+	}
+	
+	public function saveImageData($path, $imageData) {
+		$l = $this->getBaseFolder().DS.$path.DS.'labels.txt';
+		
+		$buffer = '';
+		foreach($imageData as $key => $iD) {
+			$buffer .= $key.'|'.$iD->label.'|'.preg_replace('/\r\n|\r|\n/', ' ', $iD->desc)."\n";
+		}
+		JFile::write($l, $buffer);
+	}
+	
+	public function loadImageData($path) {
+		$l = $this->getBaseFolder().DS.$path.DS.'labels.txt';
+		
+		$imageData = array();
+		if(JFile::exists($l)) {
+			$content = JFile::read($l);
+			if($l !== false) {
+				$lines = preg_split('/\r\n|\r|\n/', $content);
+				foreach($lines as $line) {
+					$parts = preg_split('/\|/', $line);
+					$parts_count = count($parts);
+					switch($parts_count) {
+						case 3:
+							$iD = new ImageData();
+							$iD->label = $parts[1];
+							$iD->desc = $parts[2];
+							$imageData[$parts[0]] = $iD;
+							break;
+						default:
+						
+							break;
+					}
+				}
+			}
+		}
+		
+		return $imageData;
 	}
 	
 	/*
