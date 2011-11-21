@@ -18,6 +18,9 @@ class mainView extends JView
 	 */
 	function display()
 	{
+		$lang =& JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_sigplus', JPATH_ADMINISTRATOR);
+	
 		JRequest::setVar('tmpl', 'component'); //force the component template
 		$helper = new sigplusEditorButtonHelper();
 		$component	= JComponentHelper::getComponent(JRequest::getCmd( 'component' ));
@@ -52,12 +55,12 @@ window.addEvent('domready', function() {
 <fieldset>
 <div style="float: right">
 	<button type="button" onclick="closeWindow();">
-		<?php echo JText::_( 'Cancel' );?>
+		<?php echo JText::_( 'SEB_BUTTON_CANCEL' );?>
 	</button>
 </div>
 <div style="float: right">
 	<button type="button" id="pasteButton" style="display: none;"  onclick="pasteTag();">
-			<?php echo JText::_("Paste") ?>
+			<?php echo JText::_("SEB_BUTTON_PASTE") ?>
 	</button>
 </div>
 

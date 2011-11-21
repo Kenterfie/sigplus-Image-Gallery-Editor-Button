@@ -18,6 +18,9 @@ class fileBrowserView extends JView
 	 */
 	function display()
 	{
+		$lang =& JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_sigplus', JPATH_ADMINISTRATOR);
+	
 		JRequest::setVar('tmpl', 'component'); //force the component template
 		$helper = new sigplusEditorButtonHelper();
 		
@@ -28,10 +31,10 @@ class fileBrowserView extends JView
 		<table class="adminlist" id="">
 		<thead>
 			<tr>
-				<th><?php echo JText::_("Type"); ?></th>
-				<th><?php echo JText::_("Name"); ?></th>
-				<th><?php echo JText::_("Preview"); ?></th>
-				<th><?php echo JText::_("Action"); ?></th>
+				<th><?php echo JText::_("SEB_FILE_TYPE"); ?></th>
+				<th><?php echo JText::_("SEB_FILE_NAME"); ?></th>
+				<th><?php echo JText::_("SEB_FILE_PREVIEW"); ?></th>
+				<th><?php echo JText::_("SEB_FILE_ACTION"); ?></th>
 			</tr>
 		</thead>
 		<tbody id="fileTable">
@@ -41,7 +44,7 @@ class fileBrowserView extends JView
 		?>
 		<tr class="back">
 			<td align="center"><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/back.png'; ?>" /></td>
-			<td><a href="javascript:browseFolder(null);" /><?php echo JText::_("Folder Up"); ?></a></td>
+			<td><a href="javascript:browseFolder(null);" /><?php echo JText::_("SEB_FOLDER_UP"); ?></a></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -53,7 +56,7 @@ class fileBrowserView extends JView
 			<td align="center"><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/folder_picture.png'; ?>" /></td>
 			<td><a href="javascript:browseFolder('<?php echo $folder; ?>');" /><?php echo $folder; ?></a></td>
 			<td></td>
-			<td><a href="javascript:setFile('<?php echo $folder; ?>');pasteTag();" /><img src="<?php echo JURI::base(false).'/components/com_sigpluseditorbutton/assets/images/picture_add.png'; ?>" title="<?php echo JText::_("Paste Gallery"); ?>" /></a>&nbsp;<a href="javascript:setFile('<?php echo $folder; ?>');openConfig();" /><img src="<?php echo JURI::base(false).'/components/com_sigpluseditorbutton/assets/images/picture_edit.png'; ?>" title="<?php echo JText::_("Set Parameter"); ?>" /></a></td>
+			<td><a href="javascript:setFile('<?php echo $folder; ?>');pasteTag();" /><img src="<?php echo JURI::base(false).'/components/com_sigpluseditorbutton/assets/images/picture_add.png'; ?>" title="<?php echo JText::_("SEB_BUTTON_PASTE_GALLERY"); ?>" /></a>&nbsp;<a href="javascript:setFile('<?php echo $folder; ?>');openConfig();" /><img src="<?php echo JURI::base(false).'/components/com_sigpluseditorbutton/assets/images/picture_edit.png'; ?>" title="<?php echo JText::_("SEB_PARAMETER_SET"); ?>" /></a></td>
 		</tr>
 		<?php
 		}
@@ -65,7 +68,7 @@ class fileBrowserView extends JView
 			<td align="center"><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/picture.png'; ?>" /></td>
 			<td><?php echo $file; ?></td>
 			<td align="center"><img src="<?php echo $helper->getBaseFolder(false).$path.DS.'thumbs'.DS.$file; ?>" /></td>
-			<td><a href="javascript:setFile('<?php echo $file; ?>');pasteTag();" /><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/picture_add.png'; ?>" title="<?php echo JText::_("Paste Image"); ?>" /></a>&nbsp;<a href="javascript:setFile('<?php echo $file; ?>');openCaption();" /><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/picture_caption.png'; ?>" title="<?php echo JText::_("Change Label / Description"); ?>" /></a>&nbsp;<a href="javascript:setFile('<?php echo $file; ?>');openConfig();" /><img src="<?php echo JURI::base(false).'/components/com_sigpluseditorbutton/assets/images/picture_edit.png'; ?>" title="<?php echo JText::_("Set Parameter"); ?>" /></a></td>
+			<td><a href="javascript:setFile('<?php echo $file; ?>');pasteTag();" /><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/picture_add.png'; ?>" title="<?php echo JText::_("SEB_BUTTON_PASTE_IMAGE"); ?>" /></a>&nbsp;<a href="javascript:setFile('<?php echo $file; ?>');openCaption();" /><img src="<?php echo JURI::base(true).'/components/com_sigpluseditorbutton/assets/images/picture_caption.png'; ?>" title="<?php echo JText::_("SEB_CHANGE_LABEL"); ?>" /></a>&nbsp;<a href="javascript:setFile('<?php echo $file; ?>');openConfig();" /><img src="<?php echo JURI::base(false).'/components/com_sigpluseditorbutton/assets/images/picture_edit.png'; ?>" title="<?php echo JText::_("SEB_PARAMETER_SET"); ?>" /></a></td>
 		</tr>
 		<?php
 		}

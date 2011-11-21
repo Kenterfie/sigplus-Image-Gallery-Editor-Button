@@ -18,6 +18,9 @@ class parameterEditView extends JView
 	 */
 	function display()
 	{
+		$lang =& JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_sigplus', JPATH_ADMINISTRATOR);
+	
 		JRequest::setVar('tmpl', 'component'); //force the component template
 		$helper = new sigplusEditorButtonHelper();
 		

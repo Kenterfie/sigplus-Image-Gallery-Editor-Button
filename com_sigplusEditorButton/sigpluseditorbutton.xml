@@ -15,7 +15,10 @@
     <files>
         <filename component="admin.sigpluseditorbutton">admin.sigpluseditorbutton.php</filename>
         <filename>helper.php</filename>
-		<filename>views/view.php</filename>
+		<filename>views/captionEditView.php</filename>
+		<filename>views/fileBrowserView.php</filename>
+		<filename>views/mainView.php</filename>
+		<filename>views/parameterEditView.php</filename>
 		<filename>assets/css/sigplusEditorButton.css</filename>
 		<filename>assets/images/accept.png</filename>
 		<filename>assets/images/back.png</filename>
@@ -26,6 +29,7 @@
 		<filename>assets/images/picture.png</filename>
 		<filename>assets/images/picture_add.png</filename>
 		<filename>assets/images/picture_edit.png</filename>
+		<filename>assets/images/picture_caption.png</filename>
 		<filename>assets/images/pictures.png</filename>
 		<filename>assets/js/sigplusEditorButton.js</filename>
     </files>

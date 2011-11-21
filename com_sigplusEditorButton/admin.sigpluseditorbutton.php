@@ -10,6 +10,9 @@ require_once (JPATH_COMPONENT.DS.'views'.DS.'captionEditView.php');
 
 $task = JRequest::getVar('task');
 
+$lang =& JFactory::getLanguage();
+$lang->load('plg_editors-xtd_sigplus', JPATH_ADMINISTRATOR);
+
 if ($task == 'view') {
 	$view = new mainView();
 	$view->display();

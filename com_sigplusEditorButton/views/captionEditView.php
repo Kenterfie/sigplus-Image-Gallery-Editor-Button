@@ -18,6 +18,9 @@ class captionEditView extends JView
 	 */
 	function display()
 	{
+		$lang =& JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_sigplus', JPATH_ADMINISTRATOR);
+	
 		JRequest::setVar('tmpl', 'component'); //force the component template
 		$helper = new sigplusEditorButtonHelper();
 		
@@ -37,11 +40,11 @@ class captionEditView extends JView
 	</thead>
 	<tbody>
 		<tr>
-			<td><?php echo JText::_("Label:"); ?></td>
+			<td><?php echo JText::_("SEB_IMAGE_LABEL"); ?>:</td>
 			<td><input type="text" id="imageLabel" value="<?php echo $iD->label; ?>" /></td>
 		</tr>
 		<tr>
-			<td><?php echo JText::_("Description:") ?></td>
+			<td><?php echo JText::_("SEB_IMAGE_DESCRIPTION") ?>:</td>
 			<td>
 				<textarea id="imageDesc" cols="30" rows="10"><?php echo $iD->desc; ?></textarea>
 			</td>
@@ -50,10 +53,10 @@ class captionEditView extends JView
 			<td></td>
 			<td>
 				<button type="button" id="saveButton"  onclick="saveCaption();">
-					<?php echo JText::_("Save") ?>
+					<?php echo JText::_("SEB_BUTTON_SAVE") ?>
 				</button>
 				<button type="button" id="backButton"  onclick="back();">
-					<?php echo JText::_("Back") ?>
+					<?php echo JText::_("SEB_BUTTON_BACK") ?>
 				</button>
 			</td>
 		</tr>

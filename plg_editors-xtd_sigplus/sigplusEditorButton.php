@@ -11,6 +11,8 @@ class plgButtonsigplusEditorButton extends JPlugin
 	}
 	
 	function onDisplay($name) {
+		$lang =& JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_sigplus', JPATH_ADMINISTRATOR);
 		
 		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet(JURI::base(true).'/components/com_sigpluseditorbutton/assets/css/sigplusEditorButton.css');
@@ -21,7 +23,7 @@ class plgButtonsigplusEditorButton extends JPlugin
 	
 		$button = new JObject();
 		$button->set('modal', true);
-		$button->set('text', JText::_('Add image/gallery'));
+		$button->set('text', JText::_('SEB_ADD_FOLDER_OR_IMAGE'));
 		$button->set('name', 'sigplus_button'); // we dont need a spezial css style class
 		//$button->set('name', 'blank'); // we dont need a spezial css style class
 		$button->set('options', "{handler: 'iframe', size: {x: 600, y: 400}}");
