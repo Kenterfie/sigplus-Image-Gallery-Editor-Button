@@ -1,3 +1,11 @@
 .button2-left .sigplus_button {
 	background: transparent url(../images/j_button_sigplus_editorbutton.png) no-repeat scroll 100% 0pt;
 }
+
+.dropzone {
+    height: 100px;
+    border-radius: 5px;
+    border: 2px #DEDEDE solid;
+    text-align: center;
+    line-height: 100px;
+}

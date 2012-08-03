@@ -14,6 +14,7 @@ var sigplus_ptt = [
 	{'form': 'layout', 'config': 'layout', 'format': null},
 	{'form': 'thumb_width', 'config': 'width', 'format': null},
 	{'form': 'thumb_height', 'config': 'height', 'format': null},
+	{'form': 'thumb_count', 'config': 'maxcount', 'format': null},
 	{'form': 'cols', 'config': 'cols', 'format': null},
 	{'form': 'rows', 'config': 'rows', 'format': null},
 	{'form': 'thumb_crop', 'config': 'crop', 'format': null},
@@ -66,7 +67,7 @@ function insertEditor(text) {
 }
 
 function closeWindow() {
-	window.parent.document.getElementById('sbox-window').close();
+	window.parent.SqueezeBox.close();
 }
 	
 function browseFolder(p) {
@@ -90,32 +91,35 @@ function hideParameters() {
 	$$('input, select, textarea', true).each(function(el) {
 		var param = el.name.match(/params\[([a-z_]+)\]/i);
 		if(param.length > 0) {
+            //console.log(translateParam(param[1]));
 			if(!translateParam(param[1])) {
-				el.getParent().getParent().setStyle('display', 'none');
+				el.getParent("li").setStyle('display', 'none');
 			}
 		}
 	});
 }
 
 function openConfig() {
-	xmlHttpObject = new XHR({
+	xmlHttpObject = new Request({
 		method: 'get',
+        url: joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=config&format=raw',
 		onSuccess: function() {
 			$('formHolder').innerHTML = xmlHttpObject.response.text;
 			//buildParameters();
 			hideParameters();
 			$('pasteButton').setStyle('display', 'block');
 		}
-	}).send(joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=config&format=raw');
+	}).send();
 }
 
 function openCaption() {
-	xmlHttpObject = new XHR({
+	xmlHttpObject = new Request({
 		method: 'get',
+        url: joomla_base+'/administrator/index.php?option=com_sigpluseditorbutton&task=caption&path=' + encodeURIComponent(path.join('/')) + '&file=' + encodeURIComponent(extractFilename(file)) + '&format=raw',
 		onSuccess: function() {
 			$('formHolder').innerHTML = xmlHttpObject.response.text;
 		}
-	}).send(joomla_base+'/administrator/index.php?option=com_sigpluseditorbutton&task=caption&path=' + encodeURIComponent(path.join('/')) + '&file=' + encodeURIComponent(extractFilename(file)) + '&format=raw');
+	}).send();
 }
 
 function extractFilename(f) {
@@ -125,13 +129,14 @@ function extractFilename(f) {
 
 function saveCaption() {
 	browseFolder(path);
-	xmlHttpObject = new XHR({
+	xmlHttpObject = new Request({
 		method: 'get',
+        url: joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=setcaption&path=' + encodeURIComponent(path.join('/')) + '&file=' + encodeURIComponent(extractFilename(file)) + '&label=' + encodeURIComponent($('imageLabel').value) + '&desc=' + encodeURIComponent($('imageDesc').value) + '&format=raw',
 		onSuccess: function() {
 			// show return message
 			$('messageHolder').innerHTML = xmlHttpObject.response.text;
 		}
-	}).send(joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=setcaption&path=' + encodeURIComponent(path.join('/')) + '&file=' + encodeURIComponent(extractFilename(file)) + '&label=' + encodeURIComponent($('imageLabel').value) + '&desc=' + encodeURIComponent($('imageDesc').value) + '&format=raw');
+	}).send();
 }
 
 function setFile(f) {
@@ -154,12 +159,103 @@ function pasteTag() {
 	closeWindow();
 }
 
+function upload() {
+    xmlHttpObject2 = new Request({
+		method: 'get',
+        url: joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=upload&format=raw',
+		onSuccess: function() {
+			$('formHolder').innerHTML = xmlHttpObject2.response.text;
+            $j('.dropzone').filedrop({
+                fallback_id: 'upload_button',    // an identifier of a standard file input element
+                url: 'upload.php',              // upload handler, handles each file separately
+                paramname: 'userfile',          // POST parameter name used on serverside to reference file
+                data: {
+                    param1: 'value1',           // send POST variables
+                    param2: function(){
+                        return 0; //calculated_data; // calculate data at time of upload
+                    }
+                },
+                error: function(err, file) {
+                    console.log(error);
+                    switch(err) {
+                        case 'BrowserNotSupported':
+                            alert('browser does not support html5 drag and drop')
+                            break;
+                        case 'TooManyFiles':
+                            // user uploaded more than 'maxfiles'
+                            break;
+                        case 'FileTooLarge':
+                            // program encountered a file whose size is greater than 'maxfilesize'
+                            // FileTooLarge also has access to the file which was too large
+                            // use file.name to reference the filename of the culprit file
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                maxfiles: 25,
+                maxfilesize: 20,    // max file size in MBs
+                dragOver: function() {
+                    // user dragging files over #dropzone
+                    $j('.dropzone').css('background-color', 'blue');
+                },
+                dragLeave: function() {
+                    // user dragging files out of #dropzone
+                },
+                docOver: function() {
+                    // user dragging files anywhere inside the browser document window
+                    $j('.dropzone').css('background-color', 'blue');
+                },
+                docLeave: function() {
+                    // user dragging files out of the browser document window
+                },
+                drop: function() {
+                    // user drops file
+                    console.log("drop");
+                },
+                uploadStarted: function(i, file, len){
+                    // a file began uploading
+                    // i = index => 0, 1, 2, 3, 4 etc
+                    // file is the actual file of the index
+                    // len = total files user dropped
+                    console.log("upload start");
+                },
+                uploadFinished: function(i, file, response, time) {
+                    // response is the data you got back from server in JSON format.
+                    console.log("uploaded");
+                },
+                progressUpdated: function(i, file, progress) {
+                    // this function is used for large files and updates intermittently
+                    // progress is the integer value of file being uploaded percentage to completion
+                    console.log("up " + i + " " + file + " " + progress);
+                },
+                speedUpdated: function(i, file, speed) {
+                    // speed in kb/s
+                    console.log("speed " + i + " " + file + " " + speed);
+                },
+                rename: function(name) {
+                    // name in string format
+                    // must return alternate name as string
+                },
+                beforeEach: function(file) {
+                    // file is a file object
+                    // return false to cancel upload
+                },
+                afterAll: function() {
+                    // runs after all files have been uploaded or otherwise dealt with
+                }
+            });
+		}
+	}).send();
+}
+
 function loadFiles(p)
 {
-	xmlHttpObject2 = new XHR({
+	xmlHttpObject2 = new Request({
 		method: 'get',
+        url: joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=browse&path=' + encodeURIComponent(p) + '&format=raw',
 		onSuccess: function() {
 			$('formHolder').innerHTML = xmlHttpObject2.response.text;
 		}
-	}).send(joomla_base + '/administrator/index.php?option=com_sigpluseditorbutton&task=browse&path=' + encodeURIComponent(p) + '&format=raw');
+	}).send();
 }

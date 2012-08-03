@@ -1,8 +1,9 @@
 <?php
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 require_once( JPATH_COMPONENT.DS.'helper.php' );
+require_once (JPATH_COMPONENT.DS.'views'.DS.'uploadView.php');
 require_once (JPATH_COMPONENT.DS.'views'.DS.'mainView.php');
 require_once (JPATH_COMPONENT.DS.'views'.DS.'fileBrowserView.php');
 require_once (JPATH_COMPONENT.DS.'views'.DS.'parameterEditView.php');
@@ -40,6 +41,9 @@ if ($task == 'view') {
 	$imageData[$file]->label = $label;
 	$imageData[$file]->desc = $desc;
 	$helper->saveImageData($path, $imageData);
+} else if($task == 'upload') {
+    $view = new uploadView();
+	$view->display();
 } else {
 
 }

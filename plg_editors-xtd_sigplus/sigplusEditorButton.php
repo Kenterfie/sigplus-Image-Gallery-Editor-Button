@@ -1,14 +1,17 @@
 <?php
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
+jimport( 'joomla.plugin.plugin' );
+jimport( 'joomla.language.language' );
 
 class plgButtonsigplusEditorButton extends JPlugin
 {
-	function __contruct(&$subject, $config) {
-		parent::__contruct($subject, $config);
-	}
+	public function __construct(& $subject, $config)
+    {
+        parent::__construct($subject, $config);
+        $this->loadLanguage();
+    }
 	
 	function onDisplay($name) {
 		$lang =& JFactory::getLanguage();
