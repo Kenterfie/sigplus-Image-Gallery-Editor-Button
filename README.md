@@ -1,5 +1,9 @@
-sigplus Image Gallery Editor Button is compatible with Joomla 2.5
-=============================
+sigplus Image Gallery Editor Button
+=====================
+
+is compatible with Joomla 2.5
+---------------------
+
 ##INFO
 This extension is a editor button for the popular sigplus gallery content plugin.
 It provides a simple to use editor button with the complete functionality of the sigplus gallery.
