@@ -14,7 +14,7 @@ It includes a simple ajax file browser to select images and folders with small p
 
 ###REQUIREMENTS
 * PHP 5.3
-* [Sigplus](http://hunyadi.info.hu/en/projects/sigplus/)
+* [sigplus Image Gallery Plus](http://hunyadi.info.hu/en/projects/sigplus/)
 
 ###INSTALL
 Install the plugin and component file about the joomla installer and the plugin in the
